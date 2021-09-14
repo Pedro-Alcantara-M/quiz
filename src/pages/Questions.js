@@ -72,8 +72,6 @@ const Questions = () => {
         let newIndex = currentIndex + 1
         let score = userScore
 
-        console.log('score inicio', (score))
-
         if (answers[currentIndex]?.answer === undefined) {
             setError(true)
             setCurrentIndex(currentIndex)
