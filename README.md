@@ -6,8 +6,11 @@ Para iniciar a aplicação utilize o comando npm start no seu terminal e você p
 
 ## Funcionalidades:
 Digite a quantidade de perguntas desejadas (obrigatório).
+
 Você pode filtrar as perguntas por dificuldade (fácil, médio ou difícil).
+
 Ao iniciar o quiz é obrigatório escolher uma resposta (validação).
+
 Ao acabar as perguntas uma pagina com o resultado é aberta mostrando:
  - score
  - Todas as questões respondidas com:
