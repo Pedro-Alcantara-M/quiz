@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+/* eslint-disable no-unused-vars */
+import React from 'react'
 import { useStateValue } from '../context/state';
-import api from "../services/api"
 import { useHistory } from 'react-router';
 import {
     Box,
@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
+        gap: theme.spacing(2),
     },
 
     buttons: {
@@ -29,31 +31,29 @@ const Confirm = () => {
     const classes = useStyles();
     const history = useHistory()
     const [state, dispatch] = useStateValue();
-    const {qtd} = state
+    const { qtd, level } = state
 
     const handleStart = () => {
-        api.get(`api.php?amount=${qtd}`)
-            .then(res => {
-                localStorage.setItem('Questions', JSON.stringify(res.data.results))
-            })
         history.push("/questions")
     }
 
     const handleBack = () => {
-        localStorage.removeItem('Qtd')
         history.push("/")
     }
 
     return (
         <Box className={classes.root}>
             <Typography variant="h1" component="h2">QUIZ</Typography>
-            <Typography variant="h4" component="h4">Quantidade de perguntas: {qtd}</Typography>
+            <Typography variant="h4" component="h4">Number of questions: {qtd}</Typography>
+            {level &&
+                <Typography variant="h4" component="h4">Difficulty: {level}</Typography>
+            }
             <Box className={classes.buttons}>
                 <Button variant="contained" color="primary" onClick={handleStart}>
-                    Começar
+                    Start
                 </Button>
                 <Button variant="contained" color="secondary" onClick={handleBack}>
-                    Voltar
+                    Back
                 </Button>
 
             </Box>

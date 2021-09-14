@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Confirm from '../pages/Confirm';
 import Questions from '../pages/Questions';
 import Rasult from '../pages/Result'
+import ViewReport from '../pages/ViewReport'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +30,9 @@ const Content = (children) => {
                 </Route>
                 <Route exact path="/results">
                     <Rasult />
+                </Route>
+                <Route exact path="/reports/:id">
+                    <ViewReport />
                 </Route>
             </Switch>
         </Grid>
