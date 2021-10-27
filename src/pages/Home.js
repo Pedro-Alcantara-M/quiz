@@ -17,6 +17,7 @@ import {
     TableBody,
     IconButton,
     Typography,
+    Input,
     TextField,
     makeStyles,
     withStyles
@@ -101,11 +102,11 @@ const Home = () => {
                 <TextField
                     id="outlined-number"
                     placeholder="Number of questions"
-                    value={value}
+                    value={value < 0 ? 0 : value}
                     required
                     label="Quantity"
                     type="number"
-                    onChange={(ev) => setValue(ev.target.value)}
+                    onChange={event => setValue(event.target.value)}
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -123,8 +124,6 @@ const Home = () => {
                 </Button>
 
             </form>
-
-
 
             <Box>
                 {open && (

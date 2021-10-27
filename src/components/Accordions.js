@@ -3,11 +3,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AccountBox from '@material-ui/icons/AccountBox';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import { repairText } from '../helper/repair-text';
 import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
-    Box,
     FormControl,
     Typography,
     makeStyles
@@ -28,36 +28,33 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: theme.typography.fontWeightRegular,
         marginLeft: theme.spacing(2),
         gap: theme.spacing(1),
-
-
     },
 
     correctAnswer: {
-        fontSize: "1rem",
+        fontSize: theme.typography.pxToRem(16),
         marginRight: theme.spacing(1),
         color: "#4BB543",
     },
 
     iconAnswer: {
-        fontSize: "1rem",
+        fontSize: theme.typography.pxToRem(16),
         marginRight: theme.spacing(1),
         transform: 'translatey(3px)',
         color: "#4BB543",
     },
 
     iconIncorrectAnswer: {
-        fontSize: "1rem",
+        fontSize: theme.typography.pxToRem(16),
         marginRight: theme.spacing(1),
         transform: 'translatey(3px)',
         color: "#F51010",
     },
 
     incorrectAnswer: {
-        fontSize: "1rem",
+        fontSize: theme.typography.pxToRem(16),
         marginRight: theme.spacing(1),
         color: "#F51010",
     },
-
 
 }));
 
@@ -97,7 +94,7 @@ export default function SimpleAccordion({ questions, userAnswers }) {
                     >
                         <Typography className={classes.heading}>
                             {questionIcon(index) ? <CheckIcon className={classes.correctAnswer} /> : <CloseIcon className={classes.incorrectAnswer} />}
-                            {`${index + 1} - ${item.question}`}
+                            {`${index + 1} - ${repairText(item.question)}`}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -116,7 +113,7 @@ export default function SimpleAccordion({ questions, userAnswers }) {
                                     {answerIcon(index, answer) === "incorrectAnswer" && (
                                         <CloseIcon className={classes.iconIncorrectAnswer} />
                                     )}
-                                    {answer}
+                                    {repairText(answer)}
                                 </Typography>
                             )}
                         </FormControl>

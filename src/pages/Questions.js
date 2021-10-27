@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStateValue } from '../context/state';
 import { useHistory } from 'react-router';
+import { repairText } from '../helper/repair-text'
 import api from '../services/api';
 import {
     Box,
@@ -104,7 +105,7 @@ const Questions = () => {
                         <Box dangerouslySetInnerHTML={{ __html: `${currentIndex + 1} - ${questions[currentIndex].question}` }} ></Box>
                         <RadioGroup aria-label="answers" name="answers" value={answers.answer} onChange={handleChange}>
                             {questions[currentIndex].answers?.map((answer, index) => {
-                                return <FormControlLabel key={`${answer} ${index}`} value={answer} required control={<Radio />} label={answer} />
+                                return <FormControlLabel key={`${answer} ${index}`} value={answer} required control={<Radio />} label={repairText(answer)} />
                             })}
                             {error && (
                                 <Typography variant="p" component="p" color="secondary">Choose one asnwer.</Typography>
