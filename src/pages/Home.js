@@ -1,11 +1,14 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStateValue } from '../context/state';
 import { useHistory } from 'react-router';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import Filter from '../components/Filter';
 import Modal from '../components/Modal'
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import DeleteIcon from '@material-ui/icons/Delete';
 import {
     Box,
     Button,
@@ -69,9 +72,8 @@ const Home = () => {
     const classes = useStyles();
     const history = useHistory()
     const [state, dispatch] = useStateValue();
-    const [value, setValue] = useState("")
-    const [filterValue, setFilterValue] = useState("")
     const [open, setOpen] = useState(false)
+    const [openModal, setOpenModal] = useState(false)
     const [reports, setReports] = useState({})
 
     const difficulty = ["", "easy", "medium", "hard"]
@@ -80,11 +82,22 @@ const Home = () => {
         setReports(JSON.parse(localStorage.getItem('reports')))
     }, [])
 
-    const handleSubmit = () => {
-        dispatch({ type: 'Qtd', payload: value })
-        dispatch({ type: 'Difficulty', payload: filterValue })
-        history.push("/confirm")
-    }
+    const formik = useFormik({
+        initialValues: {
+            numberQuestions: '',
+            difficulty: '',
+        },
+        validationSchema: Yup.object().shape({
+            numberQuestions: Yup.number()
+                .min(1, 'choose a value greater than zero')
+                .required('This field is required'),
+        }),
+        onSubmit: (values) => {
+            dispatch({ type: 'Qtd', payload: values.numberQuestions })
+            dispatch({ type: 'Difficulty', payload: values.difficulty })
+            history.push("/confirm")
+        },
+    });
 
     const handleClick = () => {
         setOpen(true)
@@ -94,35 +107,43 @@ const Home = () => {
         history.push(`/reports/${index}`)
     }
 
+    const deleteReport = (currentIndex) => {
+        let filterReports = reports.filter((item, index) => index !== currentIndex)
+
+        setReports(filterReports)
+        localStorage.setItem('reports', JSON.stringify(filterReports))
+    }
+
     return (
         <Box className={classes.root}>
             <Typography variant="h1" component="h2">QUIZ</Typography>
-
-            <form className={classes.form} onSubmit={handleSubmit}>
+            <form className={classes.form} onSubmit={formik.handleSubmit}>
                 <TextField
-                    id="outlined-number"
+                    id="numberQuestions"
+                    name="numberQuestions"
                     placeholder="Number of questions"
-                    value={value < 0 ? 0 : value}
-                    required
+                    variant="outlined"
                     label="Quantity"
                     type="number"
-                    onChange={event => setValue(event.target.value)}
+                    value={formik.values.numberQuestions < 0 
+                        ? 0 : formik.values.numberQuestions}
+                    onChange={formik.handleChange}
                     InputLabelProps={{
                         shrink: true,
                     }}
-                    variant="outlined"
+                    error={formik.touched.numberQuestions && Boolean(formik.errors.numberQuestions)}
+                    helperText={formik.touched.numberQuestions && formik.errors.numberQuestions}
                 />
 
                 <Filter
                     list={difficulty}
-                    value={filterValue}
-                    onChange={(event) => setFilterValue(event.target.value)}
+                    value={formik.values.difficulty}
+                    onChange={formik.handleChange}
                 />
 
                 <Button className={classes.nextbutton} variant="contained" color="primary" type="submit">
                     Next
                 </Button>
-
             </form>
 
             <Box>
@@ -141,13 +162,16 @@ const Home = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {reports && reports?.map((item, index) => (
+                                    {reports && reports.map((item, index) => (
                                         <TableRow key={`Reports ${index}`}>
                                             <StyledTableCell component="th" scope="row">{index + 1}</StyledTableCell>
                                             <StyledTableCell>{`${item.score}/${item.questions?.length}`}</StyledTableCell>
                                             <StyledTableCell>
                                                 <IconButton onClick={() => viewReport(index)}>
                                                     <VisibilityIcon />
+                                                </IconButton>
+                                                <IconButton onClick={() => deleteReport(index)}>
+                                                    <DeleteIcon />
                                                 </IconButton>
                                             </StyledTableCell>
                                         </TableRow>

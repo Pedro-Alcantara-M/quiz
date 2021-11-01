@@ -29,7 +29,8 @@ const Filter = (props) =>  {
       <InputLabel id="demo-simple-select-outlined-label">Level</InputLabel>
         <Select
           labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
+          id="difficulty"
+          name="difficulty"
           label="Level"
           open={open}
           onClose={() => setOpen(false)}
@@ -37,6 +38,7 @@ const Filter = (props) =>  {
           value={props.value}
           onChange={props.onChange}
         >
+           <MenuItem value="">None</MenuItem>
           {props.list.map((item, index) => 
              <MenuItem key={`filter ${index}`} value={item}>{item}</MenuItem>
           )}  

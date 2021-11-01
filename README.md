@@ -18,4 +18,4 @@ Ao acabar as perguntas uma pagina com o resultado é aberta mostrando:
  - resposta correta
  - respostas erradas
 
-Há a opção de rever os ultimos resultados jogados recentemente (relatórios).
+Há a opção de rever os ultimos resultados jogados recentemente, podendo visualizar ou excluir os relatórios.

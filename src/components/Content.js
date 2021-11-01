@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Content = (children) => {
+const Content = () => {
     const classes = useStyles()
 
     return (
